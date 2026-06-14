@@ -5,6 +5,7 @@ import ma.enset.designpatterns.examenblanc.strategy.TraitementStrategy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import ma.enset.designpatterns.examenblanc.security.SecuredBy;
 
 public class Dessin implements Serializable {
     private List<Figure> figures = new ArrayList<>();
@@ -14,6 +15,7 @@ public class Dessin implements Serializable {
         this.traitementStrategy = traitementStrategy;
     }
 
+    @SecuredBy(roles = {"ADMIN", "USER"})
     public void traiter() {
         if (traitementStrategy != null) {
             traitementStrategy.traiter(figures);
@@ -22,6 +24,7 @@ public class Dessin implements Serializable {
         }
     }
 
+    @SecuredBy(roles = {"ADMIN"})
     public void ajouterFigure(Figure figure) {
         figures.add(figure);
     }

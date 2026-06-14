@@ -2,10 +2,14 @@ package ma.enset.designpatterns.examenblanc.app;
 
 import ma.enset.designpatterns.examenblanc.model.*;
 import ma.enset.designpatterns.examenblanc.observer.Parametrage;
+import ma.enset.designpatterns.examenblanc.security.SecurityContext;
 import ma.enset.designpatterns.examenblanc.strategy.TraitementImpl1;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("--- Authentification GUEST ---");
+        SecurityContext.authenticate("guest", "GUEST");
+
         // 1. Création du paramétrage (Sujet)
         Parametrage parametrage = new Parametrage();
 
@@ -24,6 +28,13 @@ public class Main {
 
         // 4. Création du dessin et ajout des figures
         Dessin dessin = new Dessin();
+        
+        System.out.println("\n--- Tentative d'ajout de figures (GUEST) ---");
+        dessin.ajouterFigure(c1); // Devrait être bloqué par l'aspect Security
+        
+        System.out.println("\n--- Authentification ADMIN ---");
+        SecurityContext.authenticate("admin", "ADMIN");
+        System.out.println("--- Nouvelle tentative d'ajout de figures (ADMIN) ---");
         dessin.ajouterFigure(c1);
         dessin.ajouterFigure(r1);
         dessin.ajouterFigure(groupe);
